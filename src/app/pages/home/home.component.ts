@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Tasks } from 'src/app/interfaccia/tasks';
-import { aggiungi,completa } from 'src/app/task.service'
+import { add,complete } from 'src/app/task.service'
 import { todolist,cont } from 'src/app/task.service';
 
 
@@ -29,18 +29,19 @@ export class HomeComponent implements OnInit {
     this.active=false;
   }
 
-  addTask(task:string,element:HTMLInputElement){
+  async addTask(task:string,element:HTMLInputElement){
     this.id++;
     this.TaskArray= [{id:this.id,text:task,completed:false}];
-    aggiungi(this.TaskArray[0]);
-    this.TasksArray=todolist;
+
+    let a= await add( this.TaskArray[0]);
+    this.TaskArray=a;
     element.value="";
     this.num=cont;
   }
 
-  completeTask(ele:Tasks){
-     completa(ele);
-     this.TasksArray=todolist;
+  async completeTask(ele:Tasks){
+     let a=await complete(ele);
+     this.TasksArray=a;
      this.num=cont;
   }
 
